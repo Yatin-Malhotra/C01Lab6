@@ -1,10 +1,6 @@
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile_frontend
-      target: frontend
   backend:
+    image: yatinmalhotra/quirknotes_backend:latest
     build:
       context: .
       dockerfile: Dockerfile_backend
@@ -15,7 +11,19 @@ services:
       - ENV=Docker
     depends_on:
       - mongodb
+
   mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
+
+  frontend:
+    image: yatinmalhotra/quirknotes_frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_frontend
+      target: frontend
+    environment:
+      - ENV=Docker
+    ports:
+      - "3000:80"
